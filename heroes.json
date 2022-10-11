@@ -1,0 +1,65 @@
+{
+  "heroes": [
+    {
+      "id": "8fdb4bf2-c995-4a3a-84c8-f9a30434a3aa",
+      "name": "dawdaw",
+      "description": "awdaw",
+      "element": "water"
+    },
+    {
+      "id": "d37110fb-0035-4a89-8395-84aeb766f308",
+      "name": "I am ",
+      "description": "i can ",
+      "element": "water"
+    },
+    {
+      "id": "a08c112c-1b49-482a-a371-fb868aafa6fe",
+      "name": "awd",
+      "description": "awdawd",
+      "element": "fire"
+    },
+    {
+      "id": "4cd680bd-1685-4de8-aaed-59e6ca2c8b3d",
+      "name": "Эвоки -",
+      "description": "awda",
+      "element": "water"
+    }
+  ],
+  "filters": [
+    {
+      "id": "e9096f2-1ef4-4b6a-8479-22a626594463",
+      "value": "all",
+      "label": "Все",
+      "colored": "btn-outline-dark",
+      "active": true
+    },
+    {
+      "id": "e39096f2-1ef4-4b6a-8479-22a265943",
+      "value": "fire",
+      "label": "Огонь",
+      "colored": "btn-danger",
+      "active": false
+    },
+    {
+      "id": "e39096f2-1ef4-4a-8479-2a626594463",
+      "value": "water",
+      "label": "Вода",
+      "colored": "btn-primary",
+      "active": false
+    },
+    {
+      "id": "e39096f2-1ef4-4b6a-8479-22626594463",
+      "value": "wind",
+      "label": "Ветер",
+      "colored": "btn-success",
+      "active": false
+    },
+    {
+      "id": "e39096f2-1ef4-4b6a-8479-22a664463",
+      "value": "earth",
+      "label": "Земля",
+      "colored": "btn-secondary",
+      "active": false
+    }
+  ]
+}
