@@ -1,13 +1,12 @@
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { heroesDelite } from "../heroesList/heroesSlice";
-import { useHttp } from "../../hooks/http.hook";
-import { deleteHeroes } from "../heroesList/heroesSlice";
+import { ListService } from "../../service/ListService";
+import {HeroesItem} from '../heroesList/heroesSlice'
 
-const HeroesListItem = ({id, name, description, element}) => {
+const HeroesListItem = ({id, name, description, element}:HeroesItem) => {
 
     const dispatch = useDispatch()
-    const {request} = useHttp();
+    const {requestHeroes} = ListService();
 
     let elementClassName;
 
@@ -29,10 +28,13 @@ const HeroesListItem = ({id, name, description, element}) => {
     }
 
 
-    const deletePrson = (id) => {
-        // dispatch(deleteHeroes(id)) 
-        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
+    const deletePrson = (id:string) => {
+        requestHeroes(`http://localhost:3001/heroes/${id}`, 'DELETE')
             .then(dispatch(heroesDelite(id)))
+            //
+            // dispatch(heroesDelite(id))
+        console.log(id)
+        console.log('delete')
     } 
 
     return (

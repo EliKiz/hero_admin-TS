@@ -3,12 +3,15 @@ import React from 'react'
 import { createSelector } from '@reduxjs/toolkit'
 import { useEffect } from 'react';
 import { CSSTransition, TransitionGroup  } from 'react-transition-group';
-
+import { RootState } from '../../store/store'; 
 import { useAppSelector, useAppDispatch } from '../app/hooks'
+
+import { useSelector } from 'react-redux';
 
 import { fetchHeroes } from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
+import { HeroesItem } from './heroesSlice';
 
 import './heroesList.css'
 
@@ -22,14 +25,6 @@ interface StateFilters {
 interface HeroesInterface { 
     heroes: HeroesItem[]
 }
-interface HeroesItem { 
-    id: string,
-    name: string,
-    description: string,
-    element: string
-}
-
-
 
 const HeroesList = () => {
     // Функция мемоизации
@@ -47,6 +42,7 @@ const HeroesList = () => {
     );
 
     
+    // const filteredHeroes = useAppSelector(filteredHeroesSelector);
     const filteredHeroes = useAppSelector(filteredHeroesSelector);
 
     const  heroesLoadingStatus = useAppSelector(state => state.heroes.heroesLoadingStatus);

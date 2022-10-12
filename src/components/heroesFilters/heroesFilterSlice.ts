@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit/";
-import { useHttp } from "../../hooks/http.hook";
+import { ListService } from "../../service/ListService";
+import {Options} from '../heroesAddForm/HeroesAddForm'
+
 
 interface HeroesFilterState { 
-    filters: object[],
+    filters: Options[],
     filtersLoadingStatus: 'idle' | 'loading' | 'error',
     activeFilter: string
 }
@@ -18,8 +20,8 @@ const initialState:HeroesFilterState = {
 export const fetchFilters = createAsyncThunk(
     'filters/fetchFilters', 
     async () => { 
-        const {request} = useHttp();
-        return await request("http://localhost:3001/filters")
+        const {requestFilter} = ListService();
+        return await requestFilter("http://localhost:3001/filters")
     }
 )
 

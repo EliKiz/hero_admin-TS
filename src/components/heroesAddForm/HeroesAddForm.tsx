@@ -1,60 +1,77 @@
-import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
-import { createSlice } from "@reduxjs/toolkit";
-import { formSlice } from "../../form/formSlice";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useReducer } from "react";
-import { useHttp } from "../../hooks/http.hook";
+import { useAppSelector, useAppDispatch } from '../app/hooks'
+import { ListService } from "../../service/ListService";
 import { useEffect } from "react";
 import Spinner from "../spinner/Spinner";
 
-import { heroesAddFromForm, addingHeroe } from "../heroesList/heroesSlice";
+import { heroesAddFromForm} from "../heroesList/heroesSlice";
+
+// interface FormData { 
+//     id: string,
+//     name: string,
+//     description: string,
+//     element: string
+// }
+
+export interface Options { 
+    id: string,
+    value: string,
+    label: string,
+    colored: string,
+    active: boolean
+}
+interface FormDataItem { 
+    id: string,
+    name: string,
+    description: string,
+    element: string
+}
 
 const HeroesAddForm = () => {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [element, setElement] = useState('')
-    const [options, setOptions] = useState(null)
+    const [options, setOptions]= useState<Options[]>([])
     
     const id =  uuidv4();
-    const {request} = useHttp();
+    const {requestFilter, requestHeroes} = ListService();
 
-    const formData = 
+    const formData:FormDataItem = 
     {
         id,
         name,
         description,
         element
     }
-    const {filters, filtersLoadingStatus} = useSelector(state => state.filters)
-    const dispatch = useDispatch()
 
-    const formSubmit = (e) => { 
-        e.preventDefault();
-        e.target.reset();
-        // ADDING experiens
-        // dispatch(addingHeroe(formData))
-        // ADDING originals
-        request('http://localhost:3001/heroes', 'POST', JSON.stringify(formData))
-            .then(dispatch(heroesAddFromForm(formData)))
+    const {filtersLoadingStatus} = useAppSelector(state => state.filters)
+    const dispatch = useAppDispatch()
+
+    const formSubmit = (event: React.ChangeEvent<HTMLFormElement>) => { 
+        event.preventDefault();
+        event.target.reset();
+        requestHeroes('http://localhost:3001/heroes', 'POST', JSON.stringify(formData))
+        // .then(dispatch(heroesAddFromForm(formData)))
+        // 
+            dispatch(heroesAddFromForm(formData))
        
     }
 
     useEffect(() => { 
-        request('http://localhost:3001/filters')
+        requestFilter('http://localhost:3001/filters')
             .then((res) => setOptions(res))
     },[])
 
-    const renderSelect = (options, staus) => { 
-        if(staus === 'loading') { 
+    const renderSelect = (options:Options[], status:string) => { 
+        if(status === 'loading') { 
             return <option>Загрузка элементов</option>
-        } else if (staus === 'error') { 
+        } else if (status === 'error') { 
             return <option>Ошибка загрузки</option>
         }
         
-        if(options) { 
+        if(options.length > 0) { 
             const item = options.slice(1).map((item) => { 
                 return ( 
                     <option value={item.value} key={item.id}>{item.label}</option>

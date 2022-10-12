@@ -1,9 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit/";
-import { useHttp } from "../../hooks/http.hook";
+import { ListService } from "../../service/ListService";
 
 interface HeroesState { 
-    heroes : object[],
+    heroes : HeroesItem[],
     heroesLoadingStatus: 'idle' | 'loading' | 'error' 
+}
+
+export interface HeroesItem { 
+    id: string,
+    name: string,
+    description: string,
+    element: string
 }
 
 const initialState:HeroesState = {
@@ -11,59 +18,28 @@ const initialState:HeroesState = {
     heroesLoadingStatus: 'idle',
 }
 
+interface payloadType { 
+    
+}
 
-
-// createAsyncThunk отвечает за загрузку данныx и отслеживание их состояния
 export const fetchHeroes = createAsyncThunk(
-    // тип дейсвтия, в формате: имя среза/тип действия
     'heroes/fetchHeroes',
     async () => { 
-        const {request} = useHttp();
-        return await request("http://localhost:3001/heroes")
+        const {requestHeroes} = ListService();
+        return await requestHeroes("http://localhost:3001/heroes")
     }
 );
-// DELETE expiriens
-// export const deleteHeroes = createAsyncThunk(
-//     'heroes/deleteHeroes',
-//     async (id) => { 
-//         console.log('id issss', id)
-//         const {request} = useHttp();
-//         return await request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-//     }
-// )
-// ADDING experiens
-// export const addingHeroe = createAsyncThunk(
-//     'heroes/addingHeroes', 
-//     async (newHero) => { 
-//         const {request} = useHttp();
-//         return await request(`http://localhost:3001/heroes/`, 'POST', JSON.stringify(newHero))
-//     }
-// )
 
 const heroesSlice = createSlice({ 
     name: 'heroes',
     initialState,
     reducers: { 
-                        // Данынй функционал реализуется в extraReducers
-        // heroesFetching: state => {state.heroesLoadingStatus = 'loading'},
-        // heroesFetched: (state, action) => { 
-        //     state.heroesLoadingStatus = 'idle';
-        //     state.heroes = action.payload;
-        //     // эквивалент 
-        //     // ...state,
-        //     // heroes: action.payload,
-        //     // heroesLoadingStatus: 'idle'
-        // },
-        // heroesFetchingError: state => { 
-        //     state.heroesLoadingStatus = 'error'
-        // },
-        heroesDelite: (state, action) => { 
-            state.heroes = state.heroes.filter((item => item['id'] !== action.payload))
+        heroesDelite: (state, action ) => { 
+            state.heroes = state.heroes.filter((item => item !== action.payload))
         },
         heroesAddFromForm: (state, action) => { 
             state.heroes.push(action.payload)
         },
-        // addDefaultCase(() => {})
     },
     extraReducers: (duilder) => { 
         duilder
@@ -75,16 +51,6 @@ const heroesSlice = createSlice({
                 // в action.payload автматичски попадут данные, которые пришли от сервера
                 state.heroes = action.payload;
             })
-                // DELETE expiriens
-            // .addCase(deleteHeroes.fulfilled,(state, action) => { 
-            //     state.heroesLoadingStatus = 'idle';
-            //     state.heroes = state.heroes.filter((item => item.id !== action.meta.arg))
-            // })
-                // Added experiens
-            // .addCase(addingHeroe.fulfilled, (state, action) => { 
-            //     console.log(action.payload)
-            //     state.heroes.push(action.payload)
-            // })
                 // rejected Когда запрос завершился с ошибкой
             .addCase(fetchHeroes.rejected, state => { 
                 state.heroesLoadingStatus = 'error'
@@ -102,4 +68,3 @@ export const {
     heroesAddFromForm
 } = actions;
 
-// export default heroesSlice.reducer

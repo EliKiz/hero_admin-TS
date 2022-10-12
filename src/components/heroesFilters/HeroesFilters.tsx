@@ -1,29 +1,27 @@
 
-import {filtersFetched, filterClick, fetchFilters} from '../heroesFilters/heroesFiltersSlice';
-
-import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux";
-import { useHttp } from "../../hooks/http.hook";
+import { filterClick, fetchFilters} from './heroesFilterSlice';
+import {Options} from '../heroesAddForm/HeroesAddForm'
+import { useEffect } from "react"
+import { ListService } from "../../service/ListService";
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+import { useAppSelector,useAppDispatch } from '../app/hooks';
 
 const HeroesFilters = () => {
     
-    const {request} = useHttp();
+    const {requestFilter} = ListService();
     // const [button, setButton] = useState(null)
 
-    const dispatch = useDispatch()
-    const {filters, activeFilter} = useSelector(state => state.filters)
+    const dispatch = useAppDispatch()
+    const {filters, activeFilter} = useAppSelector(state => state.filters)
 
     useEffect(() => { 
         // 
-        dispatch(fetchFilters(request));
+        // requestFilter("http://localhost:3001/filters");
+        dispatch(fetchFilters());
     }, [])
     console.log('render')
 
-    
-
-    const renderButton = (button) => { 
+    const renderButton = (button:Options[]) => { 
         if (button.length === 0) {
             return <h5 className="text-center mt-5">Фильтры не найдены</h5>
         }
