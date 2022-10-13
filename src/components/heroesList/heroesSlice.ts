@@ -18,10 +18,6 @@ const initialState:HeroesState = {
     heroesLoadingStatus: 'idle',
 }
 
-interface payloadType { 
-    
-}
-
 export const fetchHeroes = createAsyncThunk(
     'heroes/fetchHeroes',
     async () => { 
@@ -35,7 +31,7 @@ const heroesSlice = createSlice({
     initialState,
     reducers: { 
         heroesDelite: (state, action ) => { 
-            state.heroes = state.heroes.filter((item => item !== action.payload))
+            state.heroes = state.heroes.filter((item => item.id !== action.payload))
         },
         heroesAddFromForm: (state, action) => { 
             state.heroes.push(action.payload)
@@ -43,15 +39,11 @@ const heroesSlice = createSlice({
     },
     extraReducers: (duilder) => { 
         duilder
-                //pending Когда запрос только формируется(отправляется)
             .addCase(fetchHeroes.pending, state => {state.heroesLoadingStatus = 'loading'} )
-                // fulfilled Когда запрос выполнился успешно
             .addCase(fetchHeroes.fulfilled, (state, action) => { 
                 state.heroesLoadingStatus = 'idle';
-                // в action.payload автматичски попадут данные, которые пришли от сервера
                 state.heroes = action.payload;
             })
-                // rejected Когда запрос завершился с ошибкой
             .addCase(fetchHeroes.rejected, state => { 
                 state.heroesLoadingStatus = 'error'
             })

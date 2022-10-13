@@ -7,13 +7,6 @@ import Spinner from "../spinner/Spinner";
 
 import { heroesAddFromForm} from "../heroesList/heroesSlice";
 
-// interface FormData { 
-//     id: string,
-//     name: string,
-//     description: string,
-//     element: string
-// }
-
 export interface Options { 
     id: string,
     value: string,
@@ -53,10 +46,7 @@ const HeroesAddForm = () => {
         event.preventDefault();
         event.target.reset();
         requestHeroes('http://localhost:3001/heroes', 'POST', JSON.stringify(formData))
-        // .then(dispatch(heroesAddFromForm(formData)))
-        // 
-            dispatch(heroesAddFromForm(formData))
-       
+            .then(() => dispatch(heroesAddFromForm(formData)))       
     }
 
     useEffect(() => { 

@@ -25,17 +25,10 @@ export const fetchFilters = createAsyncThunk(
     }
 )
 
-// createSlice вернет : name, объекты с actions и reducer
 const heroesFiltersSlice = createSlice({ 
     name: 'filters',
     initialState,
     reducers: { 
-        // мы генерируем actionsCreators и те действия, которые будут к ним подвязаны
-        // filtersFetched: (state, action) => {
-        //     state.filters =  action.payload; 
-        //     state.filtersLoadingStatus = 'idle'},
-        // filtersFetching: state => {state.filtersLoadingStatus = 'loading'},
-        // filtersFetchingError: state => {state.filtersLoadingStatus = 'error'},
         filterClick: (state, action: PayloadAction<string>) => {state.activeFilter =  action.payload}
     },
     extraReducers: (builder) => { 
@@ -53,10 +46,7 @@ const heroesFiltersSlice = createSlice({
 
 const {actions, reducer} = heroesFiltersSlice
 
-// export default reducer
-// action creators которые генерируются автоматически в объект actions
-export const { 
-    
+export const {     
     filterClick
 } = actions
 

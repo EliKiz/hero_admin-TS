@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { heroesDelite } from "../heroesList/heroesSlice";
 import { ListService } from "../../service/ListService";
 import {HeroesItem} from '../heroesList/heroesSlice'
+import { useCallback } from "react";
 
 const HeroesListItem = ({id, name, description, element}:HeroesItem) => {
 
@@ -28,14 +29,10 @@ const HeroesListItem = ({id, name, description, element}:HeroesItem) => {
     }
 
 
-    const deletePrson = (id:string) => {
+    const deletePrson = useCallback((id:string) => {
         requestHeroes(`http://localhost:3001/heroes/${id}`, 'DELETE')
-            .then(dispatch(heroesDelite(id)))
-            //
-            // dispatch(heroesDelite(id))
-        console.log(id)
-        console.log('delete')
-    } 
+            .then(() => dispatch(heroesDelite(id)))
+    }, [requestHeroes]);
 
     return (
         <li 

@@ -1,10 +1,16 @@
 {
   "heroes": [
     {
-      "id": "8fdb4bf2-c995-4a3a-84c8-f9a30434a3aa",
-      "name": "dawdaw",
+      "id": "453a5405-e3cc-4c7f-afa9-de308df95e40",
+      "name": "dawd",
       "description": "awdaw",
       "element": "water"
+    },
+    {
+      "id": "f24eba65-445d-4f8e-a17b-ce50951aaed0",
+      "name": "wdawd",
+      "description": "awda",
+      "element": "earth"
     }
   ],
   "filters": [
